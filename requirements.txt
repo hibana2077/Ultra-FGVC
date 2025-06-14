@@ -1,3 +1,6 @@
 timm
 tqdm
 matplotlib
+tensorboard
+scikit-learn
+pillow

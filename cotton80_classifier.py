@@ -78,6 +78,7 @@ class Cotton80Classifier:
             drop_rate=self.args.dropout,
             drop_path_rate=self.args.drop_path
         )
+        print(f"Model number of classes: {self.model.num_classes}")
         
         # Move model to device
         self.model = self.model.to(self.device)
@@ -152,6 +153,7 @@ class Cotton80Classifier:
             
             # Forward pass
             outputs = self.model(inputs)
+            
             loss = self.criterion(outputs, labels)
             
             # Backward pass

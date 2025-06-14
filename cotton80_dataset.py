@@ -28,7 +28,7 @@ class Cotton80Dataset(Dataset):
         transform: Optional[Callable] = None,
         target_transform: Optional[Callable] = None,
         download: bool = False,
-        zip_url: str = "<place_holder>"
+        zip_url: str = "https://huggingface.co/datasets/hibana2077/Ultra-FGVC/resolve/main/Cotton80/Cotton80.zip?download=true"
     ):
         self.root = root
         self.split = split.lower()
@@ -116,7 +116,7 @@ class Cotton80Dataset(Dataset):
                     parts = line.split()
                     if len(parts) >= 2:
                         image_name = parts[0]
-                        label = int(parts[1])
+                        label = int(parts[1]) - 1
                         samples.append((image_name, label))
         
         return samples
@@ -258,7 +258,7 @@ if __name__ == "__main__":
         split='train',
         transform=get_default_transforms('train'),
         download=True,  # Set to True to download
-        zip_url="your_actual_zip_url_here"  # Replace with actual URL
+        zip_url="https://huggingface.co/datasets/hibana2077/Ultra-FGVC/resolve/main/Cotton80/Cotton80.zip?download=true"  # Replace with actual URL
     )
     
     print(dataset)
@@ -275,7 +275,7 @@ if __name__ == "__main__":
         root='./data',
         batch_size=32,
         download=True,
-        zip_url="your_actual_zip_url_here"  # Replace with actual URL
+        zip_url="https://huggingface.co/datasets/hibana2077/Ultra-FGVC/resolve/main/Cotton80/Cotton80.zip?download=true"  # Replace with actual URL
     )
     
     print(f"Train batches: {len(train_loader)}")

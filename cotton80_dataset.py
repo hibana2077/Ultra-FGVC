@@ -177,10 +177,7 @@ def get_default_transforms(split: str = 'train', image_size: int = 224):
     """Get default transforms for the dataset"""
     if split == 'train':
         return transforms.Compose([
-            transforms.Resize((image_size + 32, image_size + 32)),
-            transforms.RandomCrop(image_size),
-            transforms.RandomHorizontalFlip(p=0.5),
-            transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
+            transforms.Resize((image_size, image_size)),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
@@ -201,7 +198,7 @@ def create_dataloaders(root: str, batch_size: int = 32, num_workers: int = 4,
     train_dataset = Cotton80Dataset(
         root=root, 
         split='train', 
-        transform=get_default_transforms('train'),
+        transform=get_default_transforms('train', image_size=256),
         download=download,
         zip_url=zip_url
     )
@@ -209,7 +206,7 @@ def create_dataloaders(root: str, batch_size: int = 32, num_workers: int = 4,
     val_dataset = Cotton80Dataset(
         root=root, 
         split='val', 
-        transform=get_default_transforms('val'),
+        transform=get_default_transforms('val', image_size=256),
         download=False,  # Already downloaded with train
         zip_url=zip_url
     )
@@ -217,7 +214,7 @@ def create_dataloaders(root: str, batch_size: int = 32, num_workers: int = 4,
     test_dataset = Cotton80Dataset(
         root=root, 
         split='test', 
-        transform=get_default_transforms('test'),
+        transform=get_default_transforms('test', image_size=256),
         download=False,  # Already downloaded with train
         zip_url=zip_url
     )

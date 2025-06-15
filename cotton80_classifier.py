@@ -20,7 +20,7 @@ from cotton80_dataset import Cotton80Dataset, get_default_transforms, create_dat
 
 
 class Cotton80Classifier:
-    """Cotton80 Classification using TIMM ResNet50"""
+    """Cotton80 Classification using TIMM"""
     
     def __init__(self, args):
         self.args = args
@@ -29,7 +29,7 @@ class Cotton80Classifier:
         self.start_epoch = 0
         
         # Create output directory
-        self.output_dir = os.path.join(args.output_dir, f"resnet50_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
+        self.output_dir = os.path.join(args.output_dir, f"{self.args.model}_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
         os.makedirs(self.output_dir, exist_ok=True)
         
         # Setup logging
@@ -67,12 +67,12 @@ class Cotton80Classifier:
         print(f"Number of classes: {self.num_classes}")
     
     def setup_model(self):
-        """Setup the ResNet50 model using TIMM"""
-        print("Setting up ResNet50 model...")
-        
-        # Create ResNet50 model with pretrained weights
+        """Setup the model using TIMM"""
+        print(f"Setting up {self.args.model} model...")
+
+        # Create model with pretrained weights
         self.model = timm.create_model(
-            'resnet50',
+            self.args.model,
             pretrained=self.args.pretrained,
             num_classes=self.num_classes,
             drop_rate=self.args.dropout,
@@ -283,7 +283,7 @@ class Cotton80Classifier:
     def load_checkpoint(self, checkpoint_path: str):
         """Load model checkpoint"""
         print(f"Loading checkpoint from {checkpoint_path}")
-        checkpoint = torch.load(checkpoint_path, map_location=self.device)
+        checkpoint = torch.load(checkpoint_path, map_location=self.device, weights_only=False)
         
         self.model.load_state_dict(checkpoint['state_dict'])
         self.optimizer.load_state_dict(checkpoint['optimizer'])
@@ -404,7 +404,7 @@ class Cotton80Classifier:
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Cotton80 Classification with ResNet50')
+    parser = argparse.ArgumentParser(description='Cotton80 Classification')
     
     # Data arguments
     parser.add_argument('--data-root', type=str, default='./data', help='Root directory for dataset')
@@ -414,7 +414,8 @@ def parse_args():
     parser.add_argument('--num-workers', type=int, default=4, help='Number of data loading workers')
     
     # Model arguments
-    parser.add_argument('--pretrained', action='store_true', default=True, help='Use pretrained weights')
+    parser.add_argument('--model', type=str, default='resnet50', help='Model architecture')
+    parser.add_argument('--pretrained', action='store_true', default=False, help='Use pretrained weights')
     parser.add_argument('--dropout', type=float, default=0.1, help='Dropout rate')
     parser.add_argument('--drop-path', type=float, default=0.0, help='Drop path rate')
     

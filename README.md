@@ -13,5 +13,6 @@ python cotton80_classifier.py \
     --scheduler cosine \
     --lr 1e-4 \
     --pretrained \
+    --model eva_giant_patch14_224 \
     --early-stopping 15
 ```

@@ -190,15 +190,15 @@ def get_default_transforms(split: str = 'train', image_size: int = 224):
 
 
 def create_dataloaders(root: str, batch_size: int = 32, num_workers: int = 4, 
-                      download: bool = False, zip_url: str = "<place_holder>"):
+                      download: bool = False, zip_url: str = "<place_holder>", transform=None):
     """Create DataLoaders for all splits"""
     from torch.utils.data import DataLoader
-    
+    image_transform = transform if transform is not None else get_default_transforms('train')
     # Create datasets
     train_dataset = Cotton80Dataset(
         root=root, 
         split='train', 
-        transform=get_default_transforms('train', image_size=256),
+        transform=image_transform,
         download=download,
         zip_url=zip_url
     )
@@ -206,7 +206,7 @@ def create_dataloaders(root: str, batch_size: int = 32, num_workers: int = 4,
     val_dataset = Cotton80Dataset(
         root=root, 
         split='val', 
-        transform=get_default_transforms('val', image_size=256),
+        transform=image_transform,
         download=False,  # Already downloaded with train
         zip_url=zip_url
     )
@@ -214,7 +214,7 @@ def create_dataloaders(root: str, batch_size: int = 32, num_workers: int = 4,
     test_dataset = Cotton80Dataset(
         root=root, 
         split='test', 
-        transform=get_default_transforms('test', image_size=256),
+        transform=image_transform,
         download=False,  # Already downloaded with train
         zip_url=zip_url
     )

@@ -51,14 +51,21 @@ class Cotton80Classifier:
         """Setup data loaders"""
         print("Setting up data loaders...")
         
+        # Define transforms
+        temp_model = timm.create_model(self.args.model, pretrained=self.args.pretrained)
+        data_cfg = timm.data.resolve_data_config(temp_model.pretrained_cfg)
+        
+
         # Create dataloaders using the Cotton80Dataset
         self.train_loader, self.val_loader, self.test_loader, self.num_classes = create_dataloaders(
             root=self.args.data_root,
             batch_size=self.args.batch_size,
             num_workers=self.args.num_workers,
             download=self.args.download,
-            zip_url=self.args.zip_url
+            zip_url=self.args.zip_url,
+            transform=timm.data.create_transform(**data_cfg)
         )
+        del temp_model
         
         print(f"Dataset loaded successfully!")
         print(f"Train samples: {len(self.train_loader.dataset)}")

@@ -66,7 +66,7 @@ class Cotton80Classifier:
             transform=timm.data.create_transform(**data_cfg)
         )
         del temp_model
-        
+
         print(f"Dataset loaded successfully!")
         print(f"Train samples: {len(self.train_loader.dataset)}")
         print(f"Val samples: {len(self.val_loader.dataset)}")
@@ -82,8 +82,8 @@ class Cotton80Classifier:
             self.args.model,
             pretrained=self.args.pretrained,
             num_classes=self.num_classes,
-            drop_rate=self.args.dropout,
-            drop_path_rate=self.args.drop_path
+            # drop_rate=self.args.dropout,
+            # drop_path_rate=self.args.drop_path
         )
         print(f"Model number of classes: {self.model.num_classes}")
         

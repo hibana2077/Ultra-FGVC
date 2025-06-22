@@ -52,6 +52,7 @@ class Cotton80Classifier:
         print("Setting up data loaders...")
         
         # Define transforms
+        print(f"Using model: {self.args.model}")
         temp_model = timm.create_model(self.args.model, pretrained=self.args.pretrained)
         data_cfg = timm.data.resolve_data_config(temp_model.pretrained_cfg)
         

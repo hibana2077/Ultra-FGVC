@@ -83,8 +83,6 @@ class Cotton80Classifier:
             self.args.model,
             pretrained=self.args.pretrained,
             num_classes=self.num_classes,
-            # drop_rate=self.args.dropout,
-            # drop_path_rate=self.args.drop_path
         )
         print(f"Model number of classes: {self.model.num_classes}")
         
@@ -424,8 +422,6 @@ def parse_args():
     # Model arguments
     parser.add_argument('--model', type=str, default='resnet50', help='Model architecture')
     parser.add_argument('--pretrained', action='store_true', default=False, help='Use pretrained weights')
-    parser.add_argument('--dropout', type=float, default=0.1, help='Dropout rate')
-    parser.add_argument('--drop-path', type=float, default=0.0, help='Drop path rate')
     
     # Training arguments
     parser.add_argument('--epochs', type=int, default=100, help='Number of training epochs')
